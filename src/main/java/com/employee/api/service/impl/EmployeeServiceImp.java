@@ -46,15 +46,21 @@ public class EmployeeServiceImp implements EmployeeService {
 
 		try {
 
+			LOGGER.info("EMPLOYEE SERVER  SAVE() PROCESSING ...");
+
+			LOGGER.info("DATA TO CREATE EMPLOYEE " + employeeDto.toString());
+
 			Employee employee = modelMapper.map(employeeDto, Employee.class);
 
 			employee = employeeDao.save(employee);
+
+			LOGGER.info("DATA AFTER CREATING EMPLOYEE " + employee.toString());
 
 			employeeDto = modelMapper.map(employee, EmployeeDto.class);
 
 		} catch (Exception e) {
 
-			LOGGER.error("Exception occured in create employee ", e);
+			LOGGER.error("EXCEPTION OCCURED IN CREATE EMPLOYEE ", e);
 		}
 
 		return employeeDto;
@@ -64,6 +70,10 @@ public class EmployeeServiceImp implements EmployeeService {
 	public EmployeeDto update(EmployeeDto employeeDto) {
 
 		try {
+
+			LOGGER.info("EMPLOYEE SERVER  UPDATE() PROCESSING ...");
+
+			LOGGER.info("DATA TO UPDATE EMPLOYEE " + employeeDto.toString());
 
 			Optional<Employee> employee = employeeDao.findById(employeeDto.getId());
 
@@ -86,11 +96,13 @@ public class EmployeeServiceImp implements EmployeeService {
 
 				emp = employeeDao.save(emp);
 
+				LOGGER.info("DATA AFTER UPDATE EMPLOYEE " + emp.toString());
+
 				employeeDto = modelMapper.map(emp, EmployeeDto.class);
 			}
 
 		} catch (Exception e) {
-			LOGGER.error("Exception occured in update employee ", e);
+			LOGGER.error("EXCEPTION OCCURED IN UPDATE EMPLOYEE ", e);
 		}
 
 		return employeeDto;
@@ -102,6 +114,11 @@ public class EmployeeServiceImp implements EmployeeService {
 		List<EmployeeDto> employess = new ArrayList<>();
 		try {
 
+			LOGGER.info("EMPLOYEE SERVER  FINDALL() PROCESSING ...");
+
+			LOGGER.info("REQUEST PAGINATION PAGE " + page);
+			LOGGER.info("REQUEST PAGINATION SIZE " + size);
+
 			PageRequest pageReq = PageRequest.of(page, size);
 
 			Page<Employee> employees = employeeDao.findAll(pageReq);
@@ -110,7 +127,7 @@ public class EmployeeServiceImp implements EmployeeService {
 					.collect(Collectors.toList());
 
 		} catch (Exception e) {
-			LOGGER.error("Exception occured in find all employee ", e);
+			LOGGER.error("EXCEPTION OCCURED IN FIND ALL EMPLOYEE ", e);
 		}
 
 		return employess;
@@ -121,11 +138,15 @@ public class EmployeeServiceImp implements EmployeeService {
 
 		try {
 
+			LOGGER.info("EMPLOYEE SERVER  DELETE() PROCESSING ...");
+
+			LOGGER.info("DELETED EMPLOYEE ID " + id);
+
 			employeeDao.delete(id);
 
 		} catch (Exception e) {
 
-			LOGGER.error("Exception occured in delete employee ", e);
+			LOGGER.error("EXCEPTION OCCURED IN DELETE EMPLOYEE ", e);
 		}
 
 	}
@@ -133,7 +154,9 @@ public class EmployeeServiceImp implements EmployeeService {
 	@Override
 	public List<DepartmentDto> getAllDepartments() {
 
-		List<DepartmentDto> departmentDtos = new ArrayList<>();
+		LOGGER.info("EMPLOYEE SERVER  GETALLDEPARTMENTS() PROCESSING ...");
+
+		List<DepartmentDto> departmentDtos = null;
 		try {
 
 			List<Department> departments = departmentDao.findAll();
@@ -143,7 +166,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
 		} catch (Exception e) {
 
-			LOGGER.error("Exception occured in all departments ", e);
+			LOGGER.error("EXCEPTION OCCURED IN ALL DEPARTMENTS ", e);
 		}
 
 		return departmentDtos;
@@ -152,7 +175,9 @@ public class EmployeeServiceImp implements EmployeeService {
 	@Override
 	public List<ManagerDto> getAllManagers() {
 
-		List<ManagerDto> managerDtos = new ArrayList<ManagerDto>();
+		LOGGER.info("EMPLOYEE SERVER  GETALLMANAGERS() PROCESSING ...");
+
+		List<ManagerDto> managerDtos = null;
 		try {
 
 			List<Manager> managers = managerDao.findAll();
@@ -161,7 +186,7 @@ public class EmployeeServiceImp implements EmployeeService {
 					.collect(Collectors.toList());
 
 		} catch (Exception e) {
-			LOGGER.error("Exception occured in all managers ", e);
+			LOGGER.error("EXCEPTION OCCURED IN ALL MANAGERS ", e);
 		}
 
 		return managerDtos;
@@ -169,8 +194,13 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Override
 	public EmployeeDto findById(int id) {
-		EmployeeDto employeeDto = new EmployeeDto();
+
+		LOGGER.info("EMPLOYEE SERVER  FINDBYID() PROCESSING ...");
+
+		EmployeeDto employeeDto = null;
 		try {
+
+			LOGGER.info(" EMPLOYEE ID " + id);
 
 			Optional<Employee> employee = employeeDao.findById(id);
 
@@ -180,7 +210,7 @@ public class EmployeeServiceImp implements EmployeeService {
 			}
 
 		} catch (Exception e) {
-			LOGGER.error("Exception occured finding the employee by id ", e);
+			LOGGER.error("EXCEPTION OCCURED FINDING THE EMPLOYEE BY ID ", e);
 		}
 
 		return employeeDto;
